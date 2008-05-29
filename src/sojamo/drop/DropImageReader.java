@@ -88,7 +88,7 @@ public class DropImageReader implements Runnable {
 
 
   protected Image loadImage(Image img) {
-    MediaTracker mt = new MediaTracker(_myDropEvent.drop.parent);
+    MediaTracker mt = new MediaTracker(_myDropEvent.drop.component);
     mt.addImage(img, 0);
     try {
       mt.waitForAll();
@@ -116,8 +116,8 @@ public class DropImageReader implements Runnable {
   public void run() {
     try {
 
-      if (_myDropEvent.drop.parent instanceof PApplet) {
-        PImage myImage = ((PApplet)_myDropEvent.drop.parent).loadImage(_myPath);
+      if (_myDropEvent.drop.component instanceof PApplet) {
+        PImage myImage = ((PApplet)_myDropEvent.drop.component).loadImage(_myPath);
         updatePImage(myImage);
       }
       stop();
