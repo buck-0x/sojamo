@@ -7,22 +7,23 @@
 	<property name="source" location="../../tmp/source"/>
 	<property name="build" location="../../tmp/build"/>
 	<property name="dist"  location="../../tmp/jar"/>
-  
-	<property name="dist_drop" location="../../../Processing/libraries/sDrop/library"/>
+	<property name="libs"  location="../../workspace/libs"/>
+	<property name="dist_drop" location="../../Processing/libraries/sDrop/library"/>
+	<property name="dist_texture" location="../../Processing/libraries/sTexture/library"/>
 	<!--
-	<property name="dist_geo" location="../../../Processing/libraries/sGeo/library"/>  
-	<property name="dist_osc" location="../../../Processing/libraries/sOSC/library"/>
-	<property name="dist_patch" location="../../../Processing/libraries/sPatch/library"/>
-	<property name="dist_control" location="../../../Processing/libraries/sControl/library"/>
-	<property name="dist_texture" location="../../../Processing/libraries/sTexture/library"/>
-	<property name="dist_form" location="../../../Processing/libraries/sForm/library"/>
-	<property name="dist_network" location="../../../Processing/libraries/sNetwork/library"/>
-	<property name="dist_chat" location="../../../Processing/libraries/sChat/library"/>
+	<property name="dist_geo" location="../../Processing/libraries/sGeo/library"/>  
+	<property name="dist_osc" location="../../Processing/libraries/sOSC/library"/>
+	<property name="dist_patch" location="../../Processing/libraries/sPatch/library"/>
+	<property name="dist_control" location="../../Processing/libraries/sControl/library"/>
+
+	<property name="dist_form" location="../../Processing/libraries/sForm/library"/>
+	<property name="dist_network" location="../../Processing/libraries/sNetwork/library"/>
+	<property name="dist_chat" location="../../Processing/libraries/sChat/library"/>
 	-->
 	
 	
 	<path id="drop-classpath">
-		<fileset dir="../../../libs" >
+		<fileset dir="${libs}" >
 			<include name="core.jar"/>
 		</fileset>
 	</path>
@@ -30,7 +31,7 @@
 	
 	<!--
 	<path id="geo-classpath">
-		<fileset dir="../../../libs" >
+		<fileset dir="${libs}" >
 			<include name="core.jar"/>
 		</fileset>
 	</path>
@@ -38,7 +39,7 @@
 	
 	
 	<path id="osc-classpath">
-     <fileset dir="../../../libs" >
+     <fileset dir="${libs}" >
          <include name="core.jar"/>
      </fileset>
   	</path>
@@ -54,30 +55,30 @@
 
   
 	<path id="control-classpath">
-		<fileset dir="../../../libs" >
+		<fileset dir="${libs}" >
 			<include name="core.jar"/>
 		</fileset>
 	</path>
 
 
 	<path id="patch-classpath">
-		<fileset dir="../../../libs" >
+		<fileset dir="${libs}" >
 			<include name="core.jar"/>
 		</fileset>
 	</path>
 
 	
 	<path id="form-classpath">
-		<fileset dir="../../../libs" >
+		<fileset dir="${libs}" >
 			<include name="core.jar"/>
 			<include name="jogl.jar"/>
 			<include name="opengl.jar"/>
 		</fileset>
 	</path>
 
-
+-->
 	<path id="texture-classpath">
-		<fileset dir="../../../libs" >
+		<fileset dir="${libs}" >
 			<include name="core.jar"/>
 			<include name="jogl.jar"/>
 			<include name="opengl.jar"/>
@@ -86,32 +87,32 @@
 
 
 	<path id="textureQuicktime-classpath">
-		<fileset dir="../../../libs" >
+		<fileset dir="${libs}" >
 			<include name="core.jar"/>
 			<include name="jogl.jar"/>
 			<include name="opengl.jar"/>
 			<include name="QTJava.zip"/>
 		</fileset>
-		<fileset dir="../../b/libs" >
+		<fileset dir="${libs}" >
 			<include name="sTexture.jar"/>
 		</fileset>
 	</path>
   
 
 	<path id="textureFFmpeg-classpath">
-		<fileset dir="../../../libs" >
+		<fileset dir="${libs}" >
 			<include name="core.jar"/>
 			<include name="jogl.jar"/>
 			<include name="opengl.jar"/>
 			<include name="jmf.jar"/>
 			<include name="fobs4jmf.jar"/>
 		</fileset>
-		<fileset dir="../../b/libs" >
+		<fileset dir="${libs}" >
 			<include name="sTexture.jar"/>
 		</fileset>
 	</path>
-	-->
 	
+
 	
 	
 	<target name="init">
@@ -149,7 +150,15 @@
     	<exclude name="**/google/kml**" />
     	</fileset>
 	</copy>
-		
+	
+	<copy todir="${source}/sojamo/chat">
+    	<fileset dir="src/sojamo/chat">
+    	<exclude name="**/jabber**" />
+    	<exclude name="**/oscar**" />
+    	</fileset>
+	</copy>
+	-->
+
 	<copy todir="${source}/sojamo/texture">
     	<fileset dir="src/sojamo/texture">
     	<exclude name="**/quicktime**" />
@@ -158,6 +167,7 @@
     	</fileset>
 	</copy>
 	
+
 	<copy todir="${source}/sojamo/quicktime">
     	<fileset dir="src/sojamo/texture/quicktime">
     	</fileset>
@@ -167,27 +177,22 @@
     	<fileset dir="src/sojamo/texture/ffmpeg">
     	</fileset>
 	</copy>
+
 	
-	<copy todir="${source}/sojamo/chat">
-    	<fileset dir="src/sojamo/chat">
-    	<exclude name="**/jabber**" />
-    	<exclude name="**/oscar**" />
-    	</fileset>
-	</copy>
-	-->
 	
 	<mkdir dir="${build}"/>
 	<mkdir dir="${build}/sojamo"/>
 	<mkdir dir="${build}/sojamo/drop"/>
+	<mkdir dir="${build}/sojamo/texture"/>
+	<mkdir dir="${build}/sojamo/quicktime"/>
+	<mkdir dir="${build}/sojamo/ffmpeg"/>
+
 	<!--
 	<mkdir dir="${build}/sojamo/network"/>
 	<mkdir dir="${build}/sojamo/osc"/>
 	<mkdir dir="${build}/sojamo/control"/>
 	<mkdir dir="${build}/sojamo/patch"/>
 	<mkdir dir="${build}/sojamo/geo"/>
-	<mkdir dir="${build}/sojamo/texture"/>
-	<mkdir dir="${build}/sojamo/quicktime"/>
-	<mkdir dir="${build}/sojamo/ffmpeg"/>
 	<mkdir dir="${build}/sojamo/form"/>
 	<mkdir dir="${build}/sojamo/chat"/>
 	-->
@@ -205,6 +210,28 @@
 			</classpath>
 		</javac>
 		
+		
+		
+		<javac srcdir="${source}/sojamo/texture" destdir="${build}/sojamo/texture" source="1.4">
+			<classpath>
+				<path refid="texture-classpath"/>
+  			</classpath>
+		</javac>
+
+		<javac srcdir="${source}/sojamo/quicktime" destdir="${build}/sojamo/quicktime" source="1.4">
+			<classpath>
+				<path refid="textureQuicktime-classpath"/>
+  			</classpath>
+  	 	</javac>
+  	 
+  	 
+  	  	<javac srcdir="${source}/sojamo/ffmpeg" destdir="${build}/sojamo/ffmpeg" source="1.4">
+			<classpath>
+				<path refid="textureFFmpeg-classpath"/>
+  			</classpath>
+		</javac>
+
+
 		<!--
 		<javac srcdir="${source}/sojamo/geo" destdir="${build}/sojamo/geo" source="1.4">
 			<classpath>
@@ -252,27 +279,6 @@
 		<copy file="src/sojamo/control/standard58.gif" todir="${build}/sojamo/control/sojamo/control"/>
 		<copy file="src/sojamo/control/synt24.gif" todir="${build}/sojamo/control/sojamo/control"/>
 
-
-		<javac srcdir="${source}/sojamo/texture" destdir="${build}/sojamo/texture" source="1.4">
-			<classpath>
-				<path refid="texture-classpath"/>
-  			</classpath>
-		</javac>
-
-
-		<javac srcdir="${source}/sojamo/quicktime" destdir="${build}/sojamo/quicktime" source="1.4">
-			<classpath>
-				<path refid="textureQuicktime-classpath"/>
-  			</classpath>
-  	 	</javac>
-  	 
-  	 
-  	  	<javac srcdir="${source}/sojamo/ffmpeg" destdir="${build}/sojamo/ffmpeg" source="1.4">
-			<classpath>
-				<path refid="textureFFmpeg-classpath"/>
-  			</classpath>
-		</javac>
-
 	
 		<javac srcdir="${source}/sojamo/form" destdir="${build}/sojamo/form" source="1.4">
 			<classpath>
@@ -286,6 +292,10 @@
   <target name="dist" depends="compile_sojamo" description="generate the distribution" >
 
 	<jar jarfile="${dist_drop}/sDrop.jar" basedir="${build}/sojamo/drop"/>
+	<jar jarfile="${dist_texture}/sTexture.jar" basedir="${build}/sojamo/texture"/>
+	<jar jarfile="${libs}/sTexture.jar" basedir="${build}/sojamo/texture"/>
+	<jar jarfile="${dist_texture}/sTextureQuicktime.jar" basedir="${build}/sojamo/quicktime"/>
+	<jar jarfile="${dist_texture}/sTextureFFmpeg.jar" basedir="${build}/sojamo/ffmpeg"/>
 	
 	<!--
 	<jar jarfile="${dist_drop}/sGeo.jar" basedir="${build}/sojamo/geo"/>
@@ -296,10 +306,6 @@
     <jar jarfile="${dist_patch}/sPatch.jar" basedir="${build}/sojamo/patch"/>
 	<jar jarfile="${dist_chat}/sChat.jar" basedir="${build}/sojamo/chat"/>
 	<jar jarfile="${dist_drop}/sFrom.jar" basedir="${build}/sojamo/form"/>
-	<jar jarfile="${dist_texture}/sTexture.jar" basedir="${build}/sojamo/texture"/>
-	<jar jarfile="../../b/libs/sTexture.jar" basedir="${build}/sojamo/texture"/>
-	<jar jarfile="${dist_texture}/sTextureQuicktime.jar" basedir="${build}/sojamo/quicktime"/>
-	<jar jarfile="${dist_texture}/sTextureFFmpeg.jar" basedir="${build}/sojamo/ffmpeg"/>
 	-->
 	
   </target>
