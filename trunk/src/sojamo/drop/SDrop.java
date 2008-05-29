@@ -43,7 +43,9 @@ public class SDrop {
 
   private Method _myMethod;
 
-  protected Component parent;
+  protected Component component;
+  
+  protected Object parent;
 
   private String _myMethodName;
 
@@ -63,18 +65,29 @@ public class SDrop {
   /**
    * @invisible
    */
-  public final static String VERSION = "0.1.2";
+  public final static String VERSION = "0.1.3";
 
+  
   /**
    * in processing you instantiate SDrop with
    * drop = new SDrop(this);
-   *
-   * @param theObject Component
+   * 
+   * @param theComponent
    */
-  public SDrop(Component theObject) {
+  public SDrop(Component theComponent) {
+      this(theComponent, theComponent);
+  }
+  
+  /**
+   * 
+   * @param theComponent
+   * @param theObject
+   */
+  public SDrop(Component theComponent, Object theObject) {
     _myDropListener = new Vector();
+    component = theComponent;
     parent = theObject;
-    Class myClass = theObject.getClass();
+    Class myClass = parent.getClass();
     _myMethodName = "dropEvent";
 
     try {
@@ -97,10 +110,11 @@ public class SDrop {
     } catch (NoSuchMethodException e) {
     }
     myDropHandler = new DropHandler(this);
-    addComponent(theObject);
+    addComponent(theComponent);
     welcome();
   }
-
+  
+  
 
   private void welcome() {
     System.out.println("sojamo.drop " + VERSION + " " +
