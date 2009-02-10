@@ -24,7 +24,8 @@ mkdir ./jar/sDrop
 mkdir ./jar/sDrop/library
 cp ./jar/sDrop.jar ./jar/sDrop/library/
 cp -r ./src/sojamo/drop/documentation ./jar/sDrop/
-cp -r ./src/sojamo/drop/docuImages ./jar/sDrop/documentation
+mv ./jar/sDrop/documentation ./jar/sDrop/reference
+cp -r ./src/sojamo/drop/docuImages ./jar/sDrop/reference
 cp -r ./src/sojamo/drop/examples ./jar/sDrop/
 
 
@@ -56,5 +57,5 @@ mv source ../sojamoCompiled
 mv build ../sojamoCompiled
 mv distribution ../sojamoCompiled
 
-rm -r ./src/sojamo/drop/documentation
+rm -r ./src/sojamo/drop/reference
 

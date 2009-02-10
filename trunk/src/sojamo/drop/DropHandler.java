@@ -160,15 +160,16 @@ public class DropHandler
         if (d.equals(DataFlavor.stringFlavor)) {
           myDropEvent = new DropEvent(_mySDrop,event);
           String s = (String) transferable.getTransferData(d);
-          if (s.toLowerCase().startsWith("http://") || s.toLowerCase().startsWith("https://")) {
+          System.out.println(s);
+          if (s.toLowerCase().startsWith("file://") || s.toLowerCase().startsWith("http://") || s.toLowerCase().startsWith("https://")) {
             String[] myUrl = s.split("\n");
             if(myUrl.length>0) {
               s = myUrl[0];
             }
-            if (s.toLowerCase().endsWith(".jpg") ||
-                s.toLowerCase().endsWith(".jpeg") ||
-                s.toLowerCase().endsWith(".gif") ||
-                s.toLowerCase().endsWith(".png")) {
+            if ((s.toLowerCase().indexOf(".jpg")>-1) ||
+                (s.toLowerCase().indexOf(".jpeg")>-1) ||
+                (s.toLowerCase().indexOf(".gif")>-1) ||
+                (s.toLowerCase().indexOf(".png")>-1)) {
               myDropEvent.setImage(true);
             }
 

@@ -31,173 +31,169 @@ import java.util.Vector;
  */
 
 /**
- * sojamo.drop is a processing library that lets you drag and drop
- * objects such as files, images, bookmarks, or text
- * into your processing application. once dropped you can access
- * the information of the object from a DropEvent
- * that has been forwarded to the processing sketch.
- *
+ * sojamo.drop is a processing library that lets you drag and drop objects such
+ * as files, images, bookmarks, or text into your processing application. once
+ * dropped you can access the information of the object from a DropEvent that
+ * has been forwarded to the processing sketch.
+ * 
  * @example dropBasics
  */
 public class SDrop {
 
-  private Method _myMethod;
+	private Method _myMethod;
 
-  protected Component component;
-  
-  protected Object parent;
+	protected Component component;
 
-  private String _myMethodName;
+	protected Object parent;
 
-  private Class _myParameterClass;
+	private String _myMethodName;
 
-  private boolean isReflection;
+	private Class _myParameterClass;
 
-  /**
-   * @invisible
-   */
-  public static boolean DEBUG = false;
+	private boolean isReflection;
 
-  protected Vector _myDropListener;
+	/**
+	 * @invisible
+	 */
+	public static boolean DEBUG = false;
 
-  private final DropHandler myDropHandler;
+	protected Vector _myDropListener;
 
-  /**
-   * @invisible
-   */
-  public final static String VERSION = "0.1.3";
+	private final DropHandler myDropHandler;
 
-  
-  /**
-   * in processing you instantiate SDrop with
-   * drop = new SDrop(this);
-   * 
-   * @param theComponent
-   */
-  public SDrop(Component theComponent) {
-      this(theComponent, theComponent);
-  }
-  
-  /**
-   * 
-   * @param theComponent
-   * @param theObject
-   */
-  public SDrop(Component theComponent, Object theObject) {
-    _myDropListener = new Vector();
-    component = theComponent;
-    parent = theObject;
-    Class myClass = parent.getClass();
-    _myMethodName = "dropEvent";
+	/**
+	 * @invisible
+	 */
+	public final static String VERSION = "0.1.4";
 
-    try {
-      Method[] myMethods = myClass.getDeclaredMethods();
-      for (int i = 0; i < myMethods.length; i++) {
-        if ((myMethods[i].getName()).equals(_myMethodName)) {
-          if (myMethods[i].getParameterTypes().length == 1) {
-            if (myMethods[i].getParameterTypes()[0] == sojamo.drop.DropEvent.class) {
-              _myParameterClass = sojamo.drop.DropEvent.class;
-            }
-          }
-        }
-      }
-      Class[] myArgs = (_myParameterClass == null) ? new Class[] {}
-                       : new Class[] {_myParameterClass};
-      _myMethod = myClass.getDeclaredMethod(_myMethodName, myArgs);
-      _myMethod.setAccessible(true);
-      isReflection = true;
-    } catch (SecurityException e) {
-    } catch (NoSuchMethodException e) {
-    }
-    myDropHandler = new DropHandler(this);
-    addComponent(theComponent);
-    welcome();
-  }
-  
-  
+	/**
+	 * in processing you instantiate SDrop with drop = new SDrop(this);
+	 * 
+	 * @param theComponent
+	 */
+	public SDrop(Component theComponent) {
+		this(theComponent, theComponent);
+	}
 
-  private void welcome() {
-    System.out.println("sojamo.drop " + VERSION + " " +
-        "infos, comments, questions at http://www.sojamo.de/libraries/drop");
-  }
+	/**
+	 * 
+	 * @param theComponent
+	 * @param theObject
+	 */
+	public SDrop(Component theComponent, Object theObject) {
+		_myDropListener = new Vector();
+		component = theComponent;
+		parent = theObject;
+		Class myClass = parent.getClass();
+		_myMethodName = "dropEvent";
 
-  /**
-   * if you combine sojamo.drop with e.g. a control window from controlP5
-   * you can add a control window asa component to sojamo.drop. objects dropped
-   * into the component, here control window ,will be forwarded to
-   * your processing sketch.
-   *
-   * @param theComponent Component
-   */
-  public void addComponent(Component theComponent) {
-   new DropTarget(theComponent, myDropHandler);
-  }
+		try {
+			Method[] myMethods = myClass.getDeclaredMethods();
+			for (int i = 0; i < myMethods.length; i++) {
+				if ((myMethods[i].getName()).equals(_myMethodName)) {
+					if (myMethods[i].getParameterTypes().length == 1) {
+						if (myMethods[i].getParameterTypes()[0] == sojamo.drop.DropEvent.class) {
+							_myParameterClass = sojamo.drop.DropEvent.class;
+						}
+					}
+				}
+			}
+			Class[] myArgs = (_myParameterClass == null) ? new Class[] {}
+					: new Class[] { _myParameterClass };
+			_myMethod = myClass.getDeclaredMethod(_myMethodName, myArgs);
+			_myMethod.setAccessible(true);
+			isReflection = true;
+		} catch (SecurityException e) {
+		} catch (NoSuchMethodException e) {
+		}
+		myDropHandler = new DropHandler(this);
+		addComponent(theComponent);
+		welcome();
+	}
 
+	private void welcome() {
+		System.out.println("sojamo.drop " + VERSION + " "
+				+ "infos, comments, questions at http://www.sojamo.de/libraries/drop");
+	}
 
-  /**
-   * add a drop listener to your sketch.
-   * @example dropListener
-   * @param theListener DropListener
-   */
-  public void addDropListener(DropListener  theListener) {
-    _myDropListener.add(theListener);
-  }
+	/**
+	 * if you combine sojamo.drop with e.g. a control window from controlP5 you
+	 * can add a control window asa component to sojamo.drop. objects dropped
+	 * into the component, here control window ,will be forwarded to your
+	 * processing sketch.
+	 * 
+	 * @param theComponent
+	 *            Component
+	 */
+	public void addComponent(Component theComponent) {
+		new DropTarget(theComponent, myDropHandler);
+	}
 
-  /**
-   * remove a drop listener from your sketch.
-   * @example dropListener
-   * @param theListener DropListener
-   */
-  public void removeDropListener(DropListener  theListener) {
-    _myDropListener.remove(theListener);
-  }
+	/**
+	 * add a drop listener to your sketch.
+	 * 
+	 * @example dropListener
+	 * @param theListener
+	 *            DropListener
+	 */
+	public void addDropListener(DropListener theListener) {
+		_myDropListener.add(theListener);
+	}
 
+	/**
+	 * remove a drop listener from your sketch.
+	 * 
+	 * @example dropListener
+	 * @param theListener
+	 *            DropListener
+	 */
+	public void removeDropListener(DropListener theListener) {
+		_myDropListener.remove(theListener);
+	}
 
-  protected Vector getDropListeners() {
-    return _myDropListener;
-  }
+	protected Vector getDropListeners() {
+		return _myDropListener;
+	}
 
+	protected void updateDropListener(float theX, float theY) {
+		for (int i = (_myDropListener.size() - 1); i >= 0; i--) {
+			if (((DropListener) _myDropListener.get(i)).isSpecificTargetLocation) {
+				((DropListener) _myDropListener.get(i)).updateLocation(theX, theY);
+			}
+		}
+	}
 
-  protected void updateDropListener(float theX, float theY) {
-    for(int i=(_myDropListener.size()-1);i>=0;i--) {
-      if(((DropListener)_myDropListener.get(i)).isSpecificTargetLocation) {
-        ((DropListener)_myDropListener.get(i)).updateLocation(theX,theY);
-      }
-    }
-  }
+	/**
+	 * @invisible
+	 * @param theDropEvent
+	 *            DropEvent
+	 */
+	protected void invokeDropEvent(DropEvent theDropEvent) {
+		if (isReflection) {
+			try {
+				_myMethod.invoke(parent, new Object[] { theDropEvent });
+			} catch (IllegalArgumentException e) {
+				System.out.println("### ERROR @ sojamo.drop.invokeMethod " + _myMethod.toString()
+						+ "  " + _myMethod.getName() + " / " + e);
+			} catch (IllegalAccessException e) {
+			} catch (InvocationTargetException e) {
+			} catch (NullPointerException e) {
+			}
+		}
 
+		for (int i = (_myDropListener.size() - 1); i >= 0; i--) {
+			if (((DropListener) _myDropListener.get(i)).isSpecificTargetLocation) {
+				if (((DropListener) _myDropListener.get(i)).isInside(theDropEvent.x(), theDropEvent
+						.y())) {
+					((DropListener) _myDropListener.get(i)).dropEvent(theDropEvent);
+				}
+			} else {
+				((DropListener) _myDropListener.get(i)).dropEvent(theDropEvent);
+			}
+			((DropListener) _myDropListener.get(i)).dropFinished();
+		}
+		System.gc();
 
-  /**
-   * @invisible
-   * @param theDropEvent DropEvent
-   */
-  protected void invokeDropEvent(DropEvent theDropEvent) {
-    if (isReflection) {
-      try {
-        _myMethod.invoke(parent, new Object[] {theDropEvent});
-      } catch (IllegalArgumentException e) {
-        System.out.println(
-            "### ERROR @ sojamo.drop.invokeMethod " +
-            _myMethod.toString() + "  " +
-            _myMethod.getName() + " / " + e);
-      } catch (IllegalAccessException e) {
-      } catch (InvocationTargetException e) {
-      } catch (NullPointerException e) {
-      }
-    }
-
-    for(int i=(_myDropListener.size()-1);i>=0;i--) {
-      if(((DropListener)_myDropListener.get(i)).isSpecificTargetLocation) {
-        if(((DropListener)_myDropListener.get(i)).isInside(theDropEvent.x(),theDropEvent.y())) {
-          ((DropListener) _myDropListener.get(i)).dropEvent(theDropEvent);
-        }
-      } else {
-        ((DropListener) _myDropListener.get(i)).dropEvent(theDropEvent);
-      }
-      ((DropListener) _myDropListener.get(i)).dropFinished();
-    }
-    System.gc();
-
-  }
+	}
 
 }
