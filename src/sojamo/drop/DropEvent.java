@@ -31,6 +31,7 @@ import java.io.FilenameFilter;
 import java.util.Collection;
 import java.util.Vector;
 
+import processing.core.PApplet;
 import processing.core.PImage;
 
 
@@ -64,8 +65,9 @@ public class DropEvent {
   protected final DropTargetDropEvent _myEvent;
 
   /**
-   *
-   * @param theDrop Drop
+   * 
+   * @param theDrop
+   * @param theEvent
    */
   protected DropEvent(SDrop theDrop, DropTargetDropEvent theEvent) {
     _myEvent = theEvent;
@@ -235,6 +237,7 @@ public class DropEvent {
 
   /**
    * @invisible
+   * @param theFileReader void DropEvent
    */
   protected void process(DropImageReader theFileReader) {
     theFileReader.dispose();
@@ -249,17 +252,17 @@ public class DropEvent {
 
 
   /**
-   * load an image dragged from your harddisk and dropped onto your application into a PImage.
+   * load an image dragged from your hard disk and dropped onto your application into a PImage.
    * @return PImage
    */
   protected PImage loadImageFromDisk() {
     String myPath = file().toString().toLowerCase();
-    if (myPath.startsWith("http://") || myPath.startsWith("https://")) {
+    if (myPath.startsWith("file://") || myPath.startsWith("http://") || myPath.startsWith("https://")) {
       _myURL = file().toString();
       return loadImageFromURL();
     }
-    PImage theImage = new PImage(1, 1);
-    new DropImageReader(this, theImage, file().toString());
+    PImage theImage = new PImage(4, 4, PApplet.ARGB);
+    new DropImageReader(this, theImage, new String[] {file().toString()});
     return theImage;
   }
 
@@ -269,8 +272,8 @@ public class DropEvent {
    * @return PImage
    */
   protected PImage loadImageFromURL() {
-    PImage theImage = new PImage(1, 1);
-    new DropImageReader(this, theImage, url());
+    PImage theImage = new PImage(4, 4, PApplet.ARGB);
+    new DropImageReader(this, theImage, new String[] {url()});
     return theImage;
   }
 
@@ -282,9 +285,9 @@ public class DropEvent {
    */
   protected PImage loadImageFromURL(PImage theImage) {
     if (theImage == null) {
-      theImage = new PImage(1, 1);
+      theImage = new PImage(4, 4, PApplet.ARGB);
     }
-    new DropImageReader(this, theImage, url());
+    new DropImageReader(this, theImage, new String[] {url()});
     return theImage;
   }
 
@@ -325,31 +328,48 @@ public class DropEvent {
       File directory,
       FilenameFilter filter,
       boolean recurse) {
-    Collection files = listFiles(directory, filter, recurse);
+    Collection<File> files = listFiles(directory, filter, recurse);
 
     File[] arr = new File[files.size()];
-    return (File[])files.toArray(arr);
+    return files.toArray(arr);
   }
 
-
+  /**
+   * 
+   * @param directory
+   * @param recurse
+   * @return File[] DropEvent
+   */
   public static File[] listFilesAsArray(
       File directory,
       boolean recurse) {
     return listFilesAsArray(directory,null,recurse);
   }
 
-
+  /**
+   * 
+   * @param directory
+   * @param filter
+   * @param theDepthLimit
+   * @return File[] DropEvent
+   */
   public static File[] listFilesAsArray(
       File directory,
       FilenameFilter filter,
       int theDepthLimit) {
-    Collection files = listFiles(directory, filter, theDepthLimit);
+    Collection<File> files = listFiles(directory, filter, theDepthLimit);
 
     File[] arr = new File[files.size()];
-    return (File[])files.toArray(arr);
+    return files.toArray(arr);
   }
 
-
+  
+  /**
+   * 
+   * @param directory
+   * @param theDepthLimit
+   * @return File[] DropEvent
+   */
   public static File[] listFilesAsArray(
       File directory,
       int theDepthLimit) {
@@ -369,19 +389,18 @@ public class DropEvent {
    * @param recurse boolean
    * @return Collection
    */
-  public static Collection listFiles(
+  public static Collection<File> listFiles(
       File directory,
       FilenameFilter filter,
       boolean recurse) {
     // List of files / directories
-    Vector files = new Vector();
+    Vector<File> files = new Vector<File>();
 
     // Get files / directories in the directory
     File[] entries = directory.listFiles();
 
     // Go over entries
-    for (int f = 0; f < entries.length; f++) {
-      File entry = (File) entries[f];
+    for (File entry : entries) {
       // If there is no filter or the filter accepts the
       // file / directory, add it to the list
       if (filter == null || filter.accept(directory, entry.getName())) {
@@ -399,26 +418,25 @@ public class DropEvent {
     return files;
   }
 
-  public static Collection listFiles(
+  public static Collection<File> listFiles(
       File directory,
       boolean recurse) {
     return listFiles(directory,null,recurse);
   }
 
 
-  public static Collection listFiles(
+  public static Collection<File> listFiles(
       File directory,
       FilenameFilter filter,
       int theDepthLimit) {
     // List of files / directories
-    Vector files = new Vector();
+    Vector<File> files = new Vector<File>();
 
     // Get files / directories in the directory
     File[] entries = directory.listFiles();
 
     // Go over entries
-    for (int f = 0; f < entries.length; f++) {
-      File entry = (File) entries[f];
+    for (File entry : entries) {
       // If there is no filter or the filter accepts the
       // file / directory, add it to the list
       if (filter == null || filter.accept(directory, entry.getName())) {
@@ -439,7 +457,7 @@ public class DropEvent {
     return files;
   }
 
-  public static Collection listFiles(
+  public static Collection<File> listFiles(
       File directory,
       int theDepthLimit) {
     return listFiles(directory,null,theDepthLimit);

@@ -7,6 +7,14 @@ import java.util.Calendar;
 // 
 // some networking, opengl, openal action at
 // http://today.java.net/pub/a/today/2006/10/10/development-of-3d-multiplayer-racing-game.html
+//
+// very fast messaging infrastructure
+// http://www.zeromq.org/
+
+// nice movie about the development of the internet
+// http://www.lonja.de/motion/mo_history_internet.html
+
+
 public abstract class SNetwork {
     
     public final static String VERSION = "0.1.1";

@@ -123,7 +123,7 @@
     <!-- Compile the java code from ${src} into ${build} -->
     
     
-  	 <javac srcdir="${source}/sojamo/drop" destdir="${build}/sojamo/drop" source="1.4">
+  	 <javac srcdir="${source}/sojamo/drop" destdir="${build}/sojamo/drop" source="1.5">
     <classpath>
 		<path refid="drop-classpath"/>
   	</classpath>
