@@ -205,7 +205,9 @@ public class HTTPServer implements HTTPConstants, Runnable {
 			try {
 				Socket mySocket = _myServerSocket.accept();
 				HTTPHandler w = null;
-				System.out.println("#### starting  Server ."+mySocket);
+				if(DEBUG) {
+					System.out.println("#### starting  Server ."+mySocket);
+				}
 				synchronized (threads) {
 					if (threads.isEmpty()) {
 						HTTPHandler myHttpHandler = new HTTPHandler(this);
@@ -215,7 +217,9 @@ public class HTTPServer implements HTTPConstants, Runnable {
 						t.start();
 						
 					} else {
-						System.out.println("#### reusing ...");
+						if(DEBUG) {
+							System.out.println("#### reusing ...");
+						}
 						w = (HTTPHandler) threads.elementAt(0);
 						threads.removeElementAt(0);
 						w.setSocket(mySocket);
