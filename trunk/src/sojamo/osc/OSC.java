@@ -62,7 +62,18 @@ public class OSC {
      * @invisible
      */
     public static final String VERSION = "0.1.1";
-
+    
+    // implement bonjour service
+    // http://www.vidvox.com/phpBB2/viewtopic.php?t=3157
+    
+    // implement tuio protocol
+    // implement wii osc protocol, double check glovepie
+    //
+    // other osc implementations
+    // http://www.sciss.de/swingOSC/
+    // 
+    // have tempaltes to match address spaces.
+    // http://www.osculator.net/wp/
     /**
      * @param theParent
      *                Object
