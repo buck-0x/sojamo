@@ -9,7 +9,7 @@
 	<property name="dist"  location="../../tmp/jar"/>
 	<property name="libs"  location="../../workspace/libs"/>
 	<property name="dist_drop" location="../../Processing/libraries/sDrop/library"/>
-	<property name="dist_patch" location="../../Processing/libraries/sPatch/library"/>
+	<property name="dist_control" location="../../Processing/libraries/sControl/library"/>
 	<property name="dist_font" location="../../Processing/libraries/sFont/library"/>
 	<property name="dist_loader" location="../../Processing/libraries/sLoader/library"/>
 	<property name="dist_media" location="../../Processing/libraries/sMedia/library"/>
@@ -21,7 +21,7 @@
 	<property name="dist_geo" location="../../Processing/libraries/sGeo/library"/>  
 	<property name="dist_osc" location="../../Processing/libraries/sOSC/library"/>
 	
-	<property name="dist_control" location="../../Processing/libraries/sControl/library"/>
+	
 
 	<property name="dist_form" location="../../Processing/libraries/sForm/library"/>
 	<property name="dist_network" location="../../Processing/libraries/sNetwork/library"/>
@@ -55,14 +55,6 @@
 			<include name="smackx-debug.jar"/>
 		</fileset>
 	</path>
-
-  
-	<path id="control-classpath">
-		<fileset dir="${libs}" >
-			<include name="core.jar"/>
-		</fileset>
-	</path>
-
 
 	
 
@@ -113,12 +105,10 @@
 	
 
 -->
-
-	<path id="patch-classpath">
+	
+	<path id="control-classpath">
 		<fileset dir="${libs}" >
 			<include name="core.jar"/>
-			<!-- <include name="jogl.jar"/>
-			<include name="opengl.jar"/> -->
 		</fileset>
 	</path>
 	
@@ -214,10 +204,16 @@
     	<fileset dir="src/sojamo/texture/ffmpeg">
     	</fileset>
 	</copy>
+	
+	
+	<copy todir="${source}/sojamo/media">
+    	<fileset dir="src/sojamo/media"/>
+	</copy>
+	
 	-->
 	
-	<copy todir="${source}/sojamo/patch">
-    	<fileset dir="src/sojamo/patch"/>
+	<copy todir="${source}/sojamo/control">
+    	<fileset dir="src/sojamo/control"/>
 	</copy>
 	
 
@@ -233,9 +229,6 @@
     	<fileset dir="src/sojamo/loader"/>
 	</copy>
 	
-	<copy todir="${source}/sojamo/media">
-    	<fileset dir="src/sojamo/media"/>
-	</copy>
 	
 	<copy todir="${source}/sojamo/http">
     	<fileset dir="src/sojamo/http"/>
@@ -250,11 +243,11 @@
 	<mkdir dir="${build}/sojamo/loader"/>
 	<mkdir dir="${build}/sojamo/media"/>
 	<mkdir dir="${build}/sojamo/http"/>
-
+	<mkdir dir="${build}/sojamo/control"/>
+	
 	<!--
 	<mkdir dir="${build}/sojamo/network"/>
 	<mkdir dir="${build}/sojamo/osc"/>
-	<mkdir dir="${build}/sojamo/control"/>
 	<mkdir dir="${build}/sojamo/texture"/>
 	<mkdir dir="${build}/sojamo/quicktime"/>
 	<mkdir dir="${build}/sojamo/ffmpeg"/>
@@ -270,17 +263,14 @@
 
   <target name="compile_sojamo" depends="init" description="compile the source " >  	
 		
+		
+		<!--
 		<javac srcdir="${source}/sojamo/drop" destdir="${build}/sojamo/drop" source="1.5">
 			<classpath>
 				<path refid="drop-classpath"/>
 			</classpath>
 		</javac>
 		
-		<javac srcdir="${source}/sojamo/patch" destdir="${build}/sojamo/patch" source="1.5">
-			<classpath>
-				<path refid="patch-classpath"/>
-			</classpath>
-		</javac>
 		
 		<javac srcdir="${source}/sojamo/font" destdir="${build}/sojamo/font" source="1.5">
 			<classpath>
@@ -295,13 +285,21 @@
 		</javac>
 		
 
-		
+		-->		
 		<javac srcdir="${source}/sojamo/http" destdir="${build}/sojamo/http" source="1.5">
 			<classpath>
 				<path refid="http-classpath"/>
 			</classpath>
 		</javac>
+
 		
+	
+		<javac srcdir="${source}/sojamo/control" destdir="${build}/sojamo/control" source="1.5">
+			<classpath>
+				<path refid="control-classpath"/>
+			</classpath>
+		</javac>
+
 
 
 		<!--
@@ -359,16 +357,9 @@
 		</javac>
 	  	<copy file="src/sojamo/osc/package.html" todir="${source}/sojamo/osc"/>
   	
-  	
+	  	<copy file="src/sojamo/control/patch/package.html" todir="${source}/sojamo/control/patch"/>
   		
-	  	<copy file="src/sojamo/patch/package.html" todir="${source}/sojamo/patch"/>
-  	
-	
-		<javac srcdir="${source}/sojamo/control" destdir="${build}/sojamo/control" source="1.5">
-			<classpath>
-				<path refid="control-classpath"/>
-			</classpath>
-		</javac>
+	  	
 		<copy file="src/sojamo/control/standard56.gif" todir="${build}/sojamo/control/sojamo/control"/>
 		<copy file="src/sojamo/control/standard58.gif" todir="${build}/sojamo/control/sojamo/control"/>
 		<copy file="src/sojamo/control/synt24.gif" todir="${build}/sojamo/control/sojamo/control"/>
@@ -385,27 +376,28 @@
 
   <target name="dist" depends="compile_sojamo" description="generate the distribution" >
 
-	<jar jarfile="${dist_drop}/sDrop.jar" basedir="${build}/sojamo/drop"/>
-	
-	<jar jarfile="${dist_patch}/sPatch.jar" basedir="${build}/sojamo/patch"/>
-	
 	<!-- 
+	<jar jarfile="${dist_drop}/sDrop.jar" basedir="${build}/sojamo/drop"/>
+		
 	<jar jarfile="${dist_font}/sFont.jar" basedir="${build}/sojamo/font"/>
 	<jar jarfile="${dist_media}/sMedia.jar" basedir="${build}/sojamo/media"/>
-	-->
+	
 	
 	<jar jarfile="${dist_loader}/sLoader.jar" basedir="${build}/sojamo/loader"/>
 	
-	
+	-->	
 	<jar jarfile="${dist_http}/sHTTP.jar" basedir="${build}/sojamo/http"/>
+
 	
+	
+	<jar jarfile="${dist_control}/sControl.jar" basedir="${build}/sojamo/control"/>
 	
 	
 	<!--
 	<jar jarfile="${dist_drop}/sGeo.jar" basedir="${build}/sojamo/geo"/>
     <jar jarfile="${dist_osc}/sOSC.jar" basedir="${build}/sojamo/osc"/>
     <jar jarfile="${dist_network}/sNetwork.jar" basedir="${build}/sojamo/network"/>
-    <jar jarfile="${dist_control}/sControl.jar" basedir="${build}/sojamo/control"/>
+    
     <jar jarfile="${dist_drop}/sDrop.jar" basedir="${build}/sojamo/drop"/>
     
     <jar jarfile="${dist_texture}/sTexture.jar" basedir="${build}/sojamo/texture"/>

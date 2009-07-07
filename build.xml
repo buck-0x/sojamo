@@ -12,15 +12,15 @@
          <include name="core.jar"/>
      </fileset>
   </path>
-  
-  <!--
-	
-	<path id="http-classpath">
-     <fileset dir="../../../libs" >
+  <path id="http-classpath">
+     <fileset dir="../../libs" >
          <include name="core.jar"/>
      </fileset>
 	</path>
   
+  <!--
+	
+	
 	<path id="osc-classpath">
      <fileset dir="../../../libs" >
          <include name="core.jar"/>
@@ -65,14 +65,18 @@
 	<copy todir="${source}/sojamo/drop">
     	<fileset dir="src/sojamo/drop" />
 	</copy>
+	
+	<copy todir="${source}/sojamo/http">
+    	<fileset dir="src/sojamo/http"/>
+	</copy>
+
+
+
 	<!--
 		<copy todir="${source}/sojamo/network">
     	<fileset dir="src/sojamo/network"/>
 	</copy>
 
-	<copy todir="${source}/sojamo/http">
-    	<fileset dir="src/sojamo/http"/>
-	</copy>
 
 	<copy todir="${source}/sojamo/osc">
     	<fileset dir="src/sojamo/osc"/>
@@ -101,9 +105,10 @@
 	<mkdir dir="${build}"/>
 	<mkdir dir="${build}/sojamo"/>
 	<mkdir dir="${build}/sojamo/drop"/>
+	<mkdir dir="${build}/sojamo/http"/>
 	<!--
 	<mkdir dir="${build}/sojamo/network"/>
-	<mkdir dir="${build}/sojamo/http"/>
+	
 	<mkdir dir="${build}/sojamo/osc"/>
 	<mkdir dir="${build}/sojamo/geo"/>
 	<mkdir dir="${build}/sojamo/control"/>
@@ -129,14 +134,15 @@
   	</classpath>
 	</javac>
 	
-	
-    
-    <!--
-    <javac srcdir="${source}/sojamo/http" destdir="${build}/sojamo/http" source="1.4">
+	<javac srcdir="${source}/sojamo/http" destdir="${build}/sojamo/http" source="1.4">
     <classpath>
 		<path refid="http-classpath"/>
   	</classpath>
   	 </javac>
+	
+    
+    <!--
+    
   	 
     <javac srcdir="${source}/sojamo/osc" destdir="${build}/sojamo/osc" source="1.4">
     <classpath>
@@ -184,7 +190,7 @@
     <mkdir dir="${dist}"/>
 	-->
     <jar jarfile="${dist}/sDrop.jar" basedir="${build}/sojamo/drop"/>
-    
+    <jar jarfile="${dist}/sHTTP.jar" basedir="${build}/sojamo/http"/>
     <!--
     <jar jarfile="${dist}/sNetwork.jar" basedir="${build}/sojamo/network"/>
     <jar jarfile="${dist}/sOSC.jar" basedir="${build}/sojamo/osc"/>
