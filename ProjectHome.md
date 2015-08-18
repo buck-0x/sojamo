@@ -1,0 +1,1 @@
+sojamo libs are processing libraries for the programming environment processing. these libraries are created and maintained by andreas schlegel. libraries include implementations for networking, graphical unser interfaces, forms, and more.
